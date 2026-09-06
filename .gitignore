@@ -1,0 +1,38 @@
+# Build output
+bin/
+obj/
+artifacts/
+TestResults/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.csproj.user
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+*.DotSettings.user
+
+# NuGet packages and generated package files
+*.nupkg
+*.snupkg
+packages/
+
+# Logs and local environment overrides
+*.log
+.env
+.env.*
+!.env.example
+asb-settings.json
+
+# Local data-generation helper
+scripts/Generate-SpeciesAliases.ps1
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+Desktop.ini

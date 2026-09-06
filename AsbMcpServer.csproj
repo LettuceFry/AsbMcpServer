@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AsbInstallPath Condition="'$(ASB_INSTALL_PATH)' != ''">$(ASB_INSTALL_PATH)</AsbInstallPath>
+  </PropertyGroup>
+
+  <Target Name="ValidateAsbInstallPath" BeforeTargets="ResolveAssemblyReferences">
+    <Error Condition="'$(AsbInstallPath)' == ''"
+           Text="ASBのDLL参照先が未設定です。ASB_INSTALL_PATH 環境変数または AsbInstallPath MSBuildプロパティを指定してください。" />
+    <Error Condition="'$(AsbInstallPath)' != '' and !Exists('$(AsbInstallPath)\ARK Smart Breeding.dll')"
+           Text="$(AsbInstallPath) に ARK Smart Breeding.dll が見つかりません。" />
+  </Target>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.11" />
+    <PackageReference Include="ModelContextProtocol" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ARK Smart Breeding">
+      <HintPath>$(AsbInstallPath)\ARK Smart Breeding.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(AsbInstallPath)\Newtonsoft.Json.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Data\food-names.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\species-names.generated.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Update="asb-settings.json" Condition="Exists('asb-settings.json')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
